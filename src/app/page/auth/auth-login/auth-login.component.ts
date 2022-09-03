@@ -18,8 +18,12 @@ export class AuthLoginComponent implements OnInit {
   }
 
   login(){
-    this._serviceAuth.login().then(() => {
+    this._serviceAuth.login()
+      .then(() => {
       this.router.navigate(['home']);
-    })
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 }

@@ -11,7 +11,23 @@ export class AuthService {
   constructor(private afAuth: AngularFireAuth) { }
 
   login(){
-    return this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    return new Promise((resolve, reject) => {
+      this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then((data) => {
+        data.user?.getIdToken().then(value => {
+          sessionStorage.setItem('token', value);
+          resolve('ok');
+        })
+      })
+      .catch(err => {
+        reject(err);
+      });
+    })
+  }
+
+  getToken(){
+    let token = sessionStorage.getItem('token');
+    return token ? true : false;
   }
 
 }
