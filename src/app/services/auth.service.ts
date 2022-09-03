@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from "firebase/compat/app";
+import { IUser } from '../interfaces/user.interface';
 
 
 @Injectable({
@@ -8,7 +9,24 @@ import firebase from "firebase/compat/app";
 })
 export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth) { }
+  user: IUser = {} as IUser;
+
+  constructor(private afAuth: AngularFireAuth) { 
+    this.getUser();
+  }
+
+  getUser(){
+    return this.afAuth.authState.subscribe(user => {
+      console.log(user);
+      if(!user){
+        return;
+      }
+      this.user.uid = user.uid;
+      this.user.name = user.displayName;
+      this.user.email = user.email;
+    })
+  }
+
 
   login(){
     return new Promise((resolve, reject) => {
@@ -30,4 +48,8 @@ export class AuthService {
     return token ? true : false;
   }
 
+  logout(){
+    sessionStorage.removeItem('token');
+    return this.afAuth.signOut();
+  }
 }
