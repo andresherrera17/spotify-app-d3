@@ -13,7 +13,8 @@ export const environment = {
     appId: "1:92545577676:web:6c357fb47555c6a6c98869"
   },
   spotify:{
-
+    client_id: '19c70b37b98a4cb78cf355ea7c36265e',
+    client_secret: '4ce97b4ce3b04e0f90fe601850d0bdae'
   }
 };
 
